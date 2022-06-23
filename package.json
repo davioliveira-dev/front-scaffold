@@ -12,21 +12,30 @@
 		"@emotion/styled": "^11.9.3",
 		"@mui/icons-material": "^5.8.4",
 		"@mui/material": "^5.8.4",
+		"axios": "^0.27.2",
+		"base-64": "^1.0.0",
+		"jotai": "^1.7.2",
 		"react": "^18.0.0",
 		"react-dom": "^18.0.0",
+		"react-hook-form": "^7.32.2",
 		"react-router-dom": "6",
-		"react-toastify": "^9.0.5"
+		"react-toastify": "^9.0.5",
+		"use-http": "^1.0.26"
 	},
 	"devDependencies": {
+		"@types/base-64": "^1.0.0",
 		"@types/node": "^18.0.0",
 		"@types/react": "^18.0.0",
 		"@types/react-dom": "^18.0.0",
 		"@typescript-eslint/eslint-plugin": "^5.29.0",
 		"@typescript-eslint/parser": "^5.29.0",
 		"@vitejs/plugin-react": "^1.3.0",
+		"autoprefixer": "^10.4.7",
 		"eslint": ">=8.14.0",
 		"eslint-config-xo": "^0.41.0",
 		"eslint-plugin-react": "^7.30.0",
+		"postcss": "^8.4.14",
+		"tailwindcss": "^3.1.3",
 		"typescript": "^4.6.3",
 		"vite": "^2.9.9"
 	}
