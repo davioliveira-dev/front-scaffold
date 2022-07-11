@@ -2,12 +2,19 @@ import {api} from '@/constants/api';
 import axios, {AxiosRequestConfig} from 'axios';
 import {useEffect, useState} from 'react';
 
-function useFetch<T>(url: string, options?: AxiosRequestConfig) {
+type Options = AxiosRequestConfig & {
+	doOnMount?: boolean;
+};
+
+function useFetch<T>(
+	url: string,
+	{doOnMount = false, ...options}: Options = {},
+) {
 	const [data, setData] = useState<T>();
 	const [loading, setLoading] = useState(false);
 	const [error, setError] = useState(null);
 
-	const refetch = (options?: AxiosRequestConfig) => {
+	const fetch = (options?: AxiosRequestConfig) => {
 		setLoading(true);
 		axios(url, {...api, ...options})
 			.then(response => {
@@ -21,11 +28,11 @@ function useFetch<T>(url: string, options?: AxiosRequestConfig) {
 			});
 	};
 
-	if (options?.method === 'POST' || options?.method === 'PUT') {
-		return {data, loading, error, refetch};
-	}
-
 	useEffect(() => {
+		if (typeof doOnMount === 'boolean' && !doOnMount) {
+			return;
+		}
+
 		setLoading(true);
 		axios(url, {...api, ...options})
 			.then(response => {
@@ -37,9 +44,9 @@ function useFetch<T>(url: string, options?: AxiosRequestConfig) {
 			.finally(() => {
 				setLoading(false);
 			});
-	}, [url]);
+	}, [url, doOnMount]);
 
-	return {data, loading, error, refetch};
+	return {data, loading, error, fetch};
 }
 
 export default useFetch;

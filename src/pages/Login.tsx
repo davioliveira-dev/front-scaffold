@@ -1,10 +1,8 @@
 import logoSrc from '@/assets/logo-ae-consult.png';
 import {Container} from '@/components/Container';
-import {state} from '@/context/state';
 import useFetch from '@/hooks/useFetch';
 import {User} from '@/types/User';
 import {Button, CircularProgress, TextField} from '@mui/material';
-import {useSetAtom} from 'jotai';
 import {useEffect} from 'react';
 import {useForm} from 'react-hook-form';
 import {useNavigate} from 'react-router-dom';
@@ -15,28 +13,19 @@ type FormData = {
 };
 
 export function Login() {
-	const {refetch, loading, error, data} = useFetch<{result: User}>('/login', {
-		method: 'POST',
-	});
+	const {fetch, loading, error, data} = useFetch<User>('/login');
 	const {register, handleSubmit} = useForm<FormData>();
-	const setUser = useSetAtom(state.user);
-	const setLoginDate = useSetAtom(state.loginDate);
 	const navigate = useNavigate();
 
 	const onSubmit = async (data: FormData) => {
-		const requestData = {
-			login: data.email,
-			senha: data.password,
-		};
-
-		refetch({data: requestData, method: 'POST'});
+		console.log(data);
+		fetch({data, method: 'POST'});
 	};
 
 	useEffect(() => {
 		if (data) {
 			console.log(data);
-			setUser(data.result);
-			setLoginDate(new Date().getTime());
+			navigate('/dashboard');
 		}
 
 		if (error) {
@@ -56,9 +45,7 @@ export function Login() {
 						/>
 					</div>
 					<div className='form w-full h-full flex flex-col justify-center items-center md:items-start'>
-						<h1 className='text-3xl font-bold mb-10 text-gray-600'>
-							Login do Usuário
-						</h1>
+						<h1 className='text-3xl font-bold mb-10 text-gray-600'>Login</h1>
 						<form className='w-4/5' onSubmit={handleSubmit(onSubmit)}>
 							<TextField
 								type='email'
@@ -70,7 +57,7 @@ export function Login() {
 							/>
 							<TextField
 								type='password'
-								label='Senha'
+								label='Password'
 								variant='outlined'
 								className='mb-5 w-full'
 								{...register('password', {required: true})}
@@ -79,19 +66,17 @@ export function Login() {
 								{loading ? (
 									<CircularProgress size={24.5} color='inherit' />
 								) : (
-									'Entrar'
+									'Sign In'
 								)}
 							</Button>
 							<Button
 								className='mt-5 w-full'
-								onClick={() => navigate('/esqueci-minha-senha')}
+								onClick={() => navigate('/forgot-password')}
 							>
-								Esqueci minha senha
+								Forgot Password
 							</Button>
 						</form>
-						<Button className='mt-5 w-4/5'>
-							Não tem cadastro? Faça o seu credenciamento.
-						</Button>
+						<Button className='mt-5 w-4/5'>Sign Up</Button>
 					</div>
 				</div>
 			</div>
